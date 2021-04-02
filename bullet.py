@@ -14,9 +14,11 @@ class Bullet(Sprite):
         self.rect = pygame.Rect(0, 0, self.settings.bullet_width, self.settings.bullet_height)
         self.rect.midtop = ai_game.ship.rect.midtop
 
-    def update(self, *args, **kwargs) -> None:
-        """Перемещает снаряд вверх по экрану."""
+        # Позиция снаряда хранится в вещественном формате
+        self.y = float(self.rect.y)
 
+    def update(self) -> None:
+        """Перемещает снаряд вверх по экрану."""
         # Обновление позиции снаряда в вещественном формате
         self.y -= self.settings.bullet_speed
 

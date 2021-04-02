@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 
 class AlienInvasion:
@@ -13,7 +14,7 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('Alien Invasion')
         self.ship = Ship(self)
-        self.bullets = pygame.sprite.Group
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         while True:
@@ -34,14 +35,27 @@ class AlienInvasion:
 
     def _check_keydown_events(self, event):
         """React on button down"""
-        if event.key == pygame.K_RIGHT:
-            # move to right
-            self.ship.moving_right = True
-        if event.key == pygame.K_LEFT:
-            # move to left
-            self.ship.moving_left = True
-        if event.key == pygame.K_q:
-            sys.exit()
+        keys = {
+            pygame.K_RIGHT: 'self.ship.moving_right',
+            pygame.K_LEFT: 'self.ship.moving_left',
+            pygame.K_SPACE: self._fire_bullet,
+            pygame.K_q: sys.exit
+        }
+        for key, item in keys.items():
+            if event.key == key:
+                if callable(keys[key]):
+                    keys[key]()
+                else:
+                    exec(f'{keys[key]} = True')
+
+        # if event.key == pygame.K_RIGHT:
+        #     # move to right
+        #     self.ship.moving_right = True
+        # if event.key == pygame.K_LEFT:
+        #     # move to left
+        #     self.ship.moving_left = True
+        # if event.key == pygame.K_q:
+        #     sys.exit()
 
     def _check_keyup_events(self, event):
         """React on button unrelease"""
@@ -53,7 +67,14 @@ class AlienInvasion:
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+
         pygame.display.flip()
+
+    def _fire_bullet(self):
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
 
 if __name__ == '__main__':
