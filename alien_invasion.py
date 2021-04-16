@@ -19,8 +19,11 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('Alien Invasion')
         self.ship = Ship(self)
-        self.alien = Alien(self)
+
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         while True:
@@ -75,6 +78,7 @@ class AlienInvasion:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
 
         pygame.display.flip()
 
@@ -94,7 +98,11 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
         print(len(self.bullets))
 
-
+    def _create_fleet(self):
+        """Создание флота вторжения."""
+        # Создание пришельца
+        alien = Alien(self)
+        self.aliens.add(alien)
 
 
 if __name__ == '__main__':
