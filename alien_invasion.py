@@ -102,7 +102,19 @@ class AlienInvasion:
         """Создание флота вторжения."""
         # Создание пришельца
         alien = Alien(self)
-        self.aliens.add(alien)
+
+        # Создание пришельца и вычисление количества пришельцев в ряду
+        # Интервал между соседними пришельцами равен ширине пришельца
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # Создание первого ряда пришельцев
+        for alien_number in range(number_aliens_x):
+            alien = Alien(self)
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x = alien.x
+            self.aliens.add(alien)
 
 
 if __name__ == '__main__':
