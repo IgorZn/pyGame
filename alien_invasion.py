@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from alien import Alien
 from bullet import Bullet
 
 
@@ -18,6 +19,7 @@ class AlienInvasion:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('Alien Invasion')
         self.ship = Ship(self)
+        self.alien = Alien(self)
         self.bullets = pygame.sprite.Group()
 
     def run_game(self):
