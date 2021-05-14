@@ -31,6 +31,7 @@ class AlienInvasion:
             self.ship.update()
             self._update_bullets()
             self._update_screen()
+            self._update_aliens()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -97,6 +98,10 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         print(len(self.bullets))
+
+    def _update_aliens(self):
+        """Обновляет позиции всех пришельцев во флоте."""
+        self.aliens.update()
 
     def _create_fleet(self):
         """Создание флота вторжения."""
